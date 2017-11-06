@@ -1,2 +1,64 @@
 {% extends 'base.html.twig' %}
-{% block title %}Home{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker();
+        } );
+    </script>
+{% endblock %}
+{% block title %}Book{% endblock %}
+{% block body %}
+
+    <header class="masthead">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Book a place</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Date: <input type="text" id="datepicker"></p>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Owner</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>122</td>
+                                <td>John Doe</td>
+
+                            </tr>
+                            <tr>
+                                <td>135</td>
+                                <td>Mary Moe</td>
+
+                            </tr>
+                            <tr>
+                                <td>144</td>
+                                <td>July Dole</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+{% endblock %}
+

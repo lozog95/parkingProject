@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Genus {{ name }}{% endblock %}
-
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+{% endblock %}
 {% block body %}
     <h2 class="genus-name">{{ name }}</h2>
     <a href="{{ path('home_show_notes', {'name': name}) }}">Get notes</a>
