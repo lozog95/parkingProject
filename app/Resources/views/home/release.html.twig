@@ -1,2 +1,44 @@
 {% extends 'base.html.twig' %}
 {% block title %}Release{% endblock %}
+
+{% block body %}
+    <header class="masthead">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Release your space</h2>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Select to release</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>122</td>
+                                <td><input type="checkbox"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-5">
+                               From
+                                <input type="datetime-local"/>
+                            </div>
+                            <div class="col-md-5">
+                                To
+                                <input type="datetime-local"/>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="Send"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+{% endblock %}

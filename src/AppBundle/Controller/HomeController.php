@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function showHome(){
         return $this->render('home/home.html.twig');
@@ -34,5 +34,11 @@ class HomeController extends Controller
      */
     public function showRelease(){
         return $this->render('home/release.html.twig');
+    }
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function showContact(){
+        return $this->render('home/contact.html.twig');
     }
 }
