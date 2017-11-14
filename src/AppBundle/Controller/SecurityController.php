@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SecurityController extends Controller
 {
 /**
- * @Route("/login", name="security_login")
+ * @Route("/login", name="login")
  */
 public function loginAction(){
 // get the login error if there is one

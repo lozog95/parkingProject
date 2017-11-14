@@ -17,7 +17,6 @@ class Fixtures extends Fixture
     {
         $user = new User();
         $user->setUsername('admin');
-
         $encoder = $this->container->get('security.password_encoder');
         $password = $encoder->encodePassword($user, 'pass_1234');
         $user->setPassword($password);
