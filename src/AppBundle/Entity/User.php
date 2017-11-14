@@ -8,89 +8,44 @@
 
 namespace AppBundle\Entity;
 
-
-use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="app_users")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @param mixed $username
      */
-    private $email;
-    /**
-     * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
-     */
-    public function getRoles()
+    public function setUsername($username)
     {
-        return ['ROLE_USER'];
+        $this->username = $username;
     }
 
     /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
+     * @param mixed $password
      */
-    public function getPassword()
+    public function setPassword($password)
     {
+        $this->password = $password;
     }
 
     /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
+     * @return mixed
      */
-    public function getSalt()
-    {
-    }
-
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
+    public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
     }
 
     /**
@@ -101,5 +56,140 @@ class User implements UserInterface
         $this->email = $email;
     }
 
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    private $username;
 
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=60, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
+    public function __construct()
+    {
+        $this->isActive = true;
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid('', true));
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
+
+    /**
+     * Checks whether the user's account has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw an AccountExpiredException and prevent login.
+     *
+     * @return bool true if the user's account is non expired, false otherwise
+     *
+     * @see AccountExpiredException
+     */
+    public function isAccountNonExpired()
+    {
+        // TODO: Implement isAccountNonExpired() method.
+    }
+
+    /**
+     * Checks whether the user is locked.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a LockedException and prevent login.
+     *
+     * @return bool true if the user is not locked, false otherwise
+     *
+     * @see LockedException
+     */
+    public function isAccountNonLocked()
+    {
+        // TODO: Implement isAccountNonLocked() method.
+    }
+
+    /**
+     * Checks whether the user's credentials (password) has expired.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a CredentialsExpiredException and prevent login.
+     *
+     * @return bool true if the user's credentials are non expired, false otherwise
+     *
+     * @see CredentialsExpiredException
+     */
+    public function isCredentialsNonExpired()
+    {
+        // TODO: Implement isCredentialsNonExpired() method.
+    }
+
+    /**
+     * Checks whether the user is enabled.
+     *
+     * Internally, if this method returns false, the authentication system
+     * will throw a DisabledException and prevent login.
+     *
+     * @return bool true if the user is enabled, false otherwise
+     *
+     * @see DisabledException
+     */
+    public function isEnabled()
+    {
+        // TODO: Implement isEnabled() method.
+    }
 }

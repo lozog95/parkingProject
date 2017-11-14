@@ -15,12 +15,15 @@ class Fixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
-            $product = new User();
-            $product->setEmail('user'.$i.'@gmail.com');
-            $manager->persist($product);
-        }
+        $user = new User();
+        $user->setUsername('admin');
+
+        $encoder = $this->container->get('security.password_encoder');
+        $password = $encoder->encodePassword($user, 'pass_1234');
+        $user->setPassword($password);
+        $email = "admin@admin.com";
+        $user->setEmail($email);
+        $manager->persist($user);
         $manager->flush();
     }
 }
