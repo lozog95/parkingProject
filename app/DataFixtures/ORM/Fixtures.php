@@ -5,6 +5,7 @@
  * Date: 13.11.2017
  * Time: 21:49
  */
+
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\User;
@@ -20,9 +21,22 @@ class Fixtures extends Fixture
         $encoder = $this->container->get('security.password_encoder');
         $password = $encoder->encodePassword($user, 'pass_1234');
         $user->setPassword($password);
-        $email = "admin@admin.com";
+        $email = "admin@application.com";
+        $role="ROLE_ADMIN";
+        $user->setRole($role);
         $user->setEmail($email);
         $manager->persist($user);
+
+        for ($i = 0; $i < 100; $i++) {
+            $user = new User();
+            $user->setUsername('user' . $i);
+            $encoder = $this->container->get('security.password_encoder');
+            $password = $encoder->encodePassword($user, 'user_1234');
+            $user->setPassword($password);
+            $email = "user" . $i . "@application.com";
+            $user->setEmail($email);
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }
