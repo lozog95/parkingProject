@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class Fixtures extends Fixture
 {
     public function load(ObjectManager $manager)
-    {
+    {/*
         $user = new User();
         $user->setUsername('admin');
         $encoder = $this->container->get('security.password_encoder');
@@ -27,7 +27,7 @@ class Fixtures extends Fixture
         $user->setEmail($email);
         $manager->persist($user);
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setUsername('user' . $i);
             $encoder = $this->container->get('security.password_encoder');
@@ -37,6 +37,6 @@ class Fixtures extends Fixture
             $user->setEmail($email);
             $manager->persist($user);
         }
-        $manager->flush();
+        $manager->flush();*/
     }
 }
