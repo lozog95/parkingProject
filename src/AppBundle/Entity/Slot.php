@@ -52,7 +52,9 @@ class Slot
     {
         $this->owner = $owner;
     }
-
+    public function getId(){
+        return $this->id;
+    }
     public function __construct()
     {
         $this->isReleased=false;
