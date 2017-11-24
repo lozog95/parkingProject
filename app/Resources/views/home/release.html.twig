@@ -16,10 +16,12 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% for item in entities %}
                             <tr>
-                                <td>122</td>
-                                <td><input type="checkbox"/></td>
+                                <td>{{ item.id }}</td>
+                                <td><input id="check" type="checkbox"/></td>
                             </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                         <div class="row">

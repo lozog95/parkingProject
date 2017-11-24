@@ -27,21 +27,13 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% for item in entities %}
                             <tr>
-                                <td>122</td>
-                                <td>John Doe</td>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.owner.getUsername() }}</td>
                                 <td><input type="checkbox"/></td>
                             </tr>
-                            <tr>
-                                <td>135</td>
-                                <td>Mary Moe</td>
-                                <td><input type="checkbox"/></td>
-                            </tr>
-                            <tr>
-                                <td>144</td>
-                                <td>July Dole</td>
-                                <td><input type="checkbox"/></td>
-                            </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                         <div class="row">
