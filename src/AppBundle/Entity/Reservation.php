@@ -14,9 +14,9 @@ use Doctrine\ORM\Mapping\OneToOne;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="slots")
+ * @ORM\Table(name="reservation")
  **/
-class Slot
+class Reservation
 {
     /**
      * @ORM\Column(type="integer")
@@ -27,40 +27,89 @@ class Slot
 
     /**
      * One Product has One Shipment.
-     * @OneToOne(targetEntity="AppBundle\Entity\User")
-     * @JoinColumn(name="owner_id", referencedColumnName="id")
+     * @OneToOne(targetEntity="AppBundle\Entity\Slot")
+     * @JoinColumn(name="slot_id", referencedColumnName="id")
      */
-    private $owner;
+    private $slot;
 
     /**
-     * @ORM\Column(name="is_released", type="boolean")
+     * One Product has One Shipment.
+     * @OneToOne(targetEntity="AppBundle\Entity\User")
+     * @JoinColumn(name="guest_id", referencedColumnName="id")
      */
-    private $isReleased;
+    private $guest;
+
+    /**
+     * @ORM\Column(type="datetime", name="from")
+     */
+    private $from;
+    /**
+     * @ORM\Column(type="datetime", name="to")
+     */
+    private $to;
 
     /**
      * @return mixed
      */
-    public function getOwner()
+    public function getSlot()
     {
-        return $this->owner;
+        return $this->slot;
     }
 
     /**
-     * @param mixed $owner_id
+     * @param mixed $owner
      */
-    public function setOwner($owner)
+    public function setSlot($slot)
     {
-        $this->owner = $owner;
+        $this->slot = $slot;
     }
-    public function getId(){
-        return $this->id;
-    }
-    public function __construct()
+
+    /**
+     * @return mixed
+     */
+    public function getGuest()
     {
-        $this->isReleased=false;
+        return $this->guest;
     }
-    public function setReleaseStatus($status){
-        $this->isReleased=$status;
+
+    /**
+     * @param mixed $guest
+     */
+    public function setGuest($guest)
+    {
+        $this->guest = $guest;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * @param mixed $from
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTo()
+    {
+        return $this->to;
+    }
+
+    /**
+     * @param mixed $to
+     */
+    public function setTo($to)
+    {
+        $this->to = $to;
     }
 
 
