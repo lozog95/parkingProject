@@ -61,5 +61,6 @@ class SlotReleaseController extends Controller
             'form' => $form->createView(),
             ));
     }
+    
 
 }
