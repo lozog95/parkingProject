@@ -11,6 +11,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToOne;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -19,11 +20,19 @@ use Doctrine\ORM\Mapping\OneToOne;
 class Slot
 {
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="id")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * One Product has One Shipment.
@@ -36,6 +45,49 @@ class Slot
      * @ORM\Column(name="is_released", type="boolean")
      */
     private $isReleased;
+
+    /**
+     * @ORM\Column(type="date", name="release_start", nullable=true)
+     * @Assert\Date()
+     */
+    private $releaseStart;
+    /**
+     * @ORM\Column(type="date", name="release_end", nullable=true)
+     * @Assert\Date()
+     */
+    private $releaseEnd;
+
+    /**
+     * @return mixed
+     */
+    public function getReleaseStart()
+    {
+        return $this->releaseStart;
+    }
+
+    /**
+     * @param mixed $releaseStart
+     */
+    public function setReleaseStart($releaseStart)
+    {
+        $this->releaseStart = $releaseStart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReleaseEnd()
+    {
+        return $this->releaseEnd;
+    }
+
+    /**
+     * @param mixed $releaseEnd
+     */
+    public function setReleaseEnd($releaseEnd)
+    {
+        $this->releaseEnd = $releaseEnd;
+    }
 
     /**
      * @return mixed

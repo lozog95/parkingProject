@@ -10,7 +10,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\OneToOne;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity
@@ -27,26 +29,26 @@ class Reservation
 
     /**
      * One Product has One Shipment.
-     * @OneToOne(targetEntity="AppBundle\Entity\Slot")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Slot")
      * @JoinColumn(name="slot_id", referencedColumnName="id")
      */
     private $slot;
 
     /**
      * One Product has One Shipment.
-     * @OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @JoinColumn(name="guest_id", referencedColumnName="id")
      */
     private $guest;
 
     /**
-     * @ORM\Column(type="datetime", name="from")
+     * @ORM\Column(type="date", name="start")
      */
-    private $from;
+    private $start;
     /**
-     * @ORM\Column(type="datetime", name="to")
+     * @ORM\Column(type="date", name="end")
      */
-    private $to;
+    private $end;
 
     /**
      * @return mixed
@@ -83,33 +85,33 @@ class Reservation
     /**
      * @return mixed
      */
-    public function getFrom()
+    public function getStart()
     {
-        return $this->from;
+        return $this->start;
     }
 
     /**
      * @param mixed $from
      */
-    public function setFrom($from)
+    public function setStart($from)
     {
-        $this->from = $from;
+        $this->start = $from;
     }
 
     /**
      * @return mixed
      */
-    public function getTo()
+    public function getEnd()
     {
-        return $this->to;
+        return $this->end;
     }
 
     /**
      * @param mixed $to
      */
-    public function setTo($to)
+    public function setEnd($to)
     {
-        $this->to = $to;
+        $this->end = $to;
     }
 
 

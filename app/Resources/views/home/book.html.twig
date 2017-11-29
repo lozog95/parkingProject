@@ -8,23 +8,14 @@
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <h2>Book a place</h2>
-                       <form action="{{ path('book') }}" method="get">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>Date and time: <input type="datetime-local" id="datepicker"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <br/>
-                                <input type="submit" value="Find" />
-                            </div>
-
-                        </div>
+                        {% if entities!= null %}
                         <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>Number</th>
                                 <th>Owner</th>
-                                <th>Select to book</th>
+                                <th>available from</th>
+                                <th>to</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,28 +23,26 @@
                             <tr>
                                 <td>{{ item.id }}</td>
                                 <td>{{ item.owner.getUsername() }}</td>
-                                <td><input title="" name="_slot" type="checkbox"/></td>
+                                <td>{{ item.getReleaseStart()|date("d/m/Y") }}</td>
+                                <td>{{ item.getReleaseEnd()|date("d/m/Y") }}</td>
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <input title="From" name="_from" type="datetime-local"/>
-                            </div>
-                            <div class="col-md-5">
-                                <input title="To" name="_to" type="datetime-local"/>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="submit" value="Send"/>
-                            </div>
-                        </div>
-                        </form>
+                        {% else %}
+                            <p>We're sorry, but all slots are already booked...</p>
+                        {% endif %}
+                    </div>{% if entities!= null %}
+                        <div class="col-lg-4 mx-auto">
+                            <h3>Select:</h3>
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            {{ form_end(form) }}
+                        </div>{% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
 {% endblock %}
 

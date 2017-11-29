@@ -8,39 +8,25 @@
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <h2>Release your space</h2>
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Select to release</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                        <p>Choose slot(s):
+                            {% if entities!=null %}
                             {% for item in entities %}
-                            <tr>
-                                <td>{{ item.id }}</td>
-                                <td><input id="check" type="checkbox"/></td>
-                            </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                {{ item.id }}
+                            {% endfor %}
+                        </p>
                         <div class="row">
-                            <div class="col-md-5">
-                               From
-                                <input type="datetime-local" name="_from"/>
-                            </div>
-                            <div class="col-md-5">
-                                To
-                                <input type="datetime-local" name="_to"/>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="submit" value="Send"/>
+                            <div class="col-lg-8 mx-auto">
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                {{ form_end(form) }}
                             </div>
                         </div>
+                        {% else %}
+                            <p>You don't have any slot to release!</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
 {% endblock %}
