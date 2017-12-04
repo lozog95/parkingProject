@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Reservation;
 use AppBundle\Entity\Slot;
 use AppBundle\Repository\SlotsRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -29,26 +30,36 @@ class SlotReleaseController extends Controller
      */
     public function showRelease(EntityManager $manager, Request $request)
     {
-        $slot=new Slot();
+        $slot = new Slot();
         $form = $this->createFormBuilder($slot)
 //            ->add('id', EntityType::class, array(
 //            'class' => 'AppBundle\Entity\Slot', 'choice_label' => 'id', 'query_builder' => function(EntityRepository $er){
 //                return $er->createQueryBuilder('s')->where('s.owner = :usr')->setParameter('usr', $this->getUser());
 //                }))
-            ->add('releaseStart', DateType::class, array('placeholder' => array(
-                'year' => date('Y'), 'month' => date('m'), 'day'=> date('d')
-            )))
-            ->add('releaseEnd', DateType::class, array('placeholder' => array(
-                'year' => date('Y'), 'month' => date('m'), 'day'=> date('d')
-            )))
+            ->add('releaseStart', DateType::class, array('data' => new \DateTime()))
+            //'placeholder' => array(
+            //'year' => date('Y'), 'month' => date('m'), 'day'=> date('d')
+            // )))
+            ->add('releaseEnd', DateType::class, array('data' => new \DateTime()))
+            //'placeholder' => array(
+            //'year' => date('Y'), 'month' => date('m'), 'day'=> date('d')
+            //)))
             ->add('submit', SubmitType::class, array('label' => 'Release'))
             ->getForm();
         $manager = $this->getDoctrine()->getManager();
-        $userSlots = $manager->getRepository(Slot::class)->findBy(array('owner' => $this->getUser(), 'isReleased' => false));
+        $userSlots = $manager->getRepository(Slot::class)->findOneBy(array('owner' => $this->getUser()));
+//        if($userSlots==null){
+//            $releaseDetails = $manager->getRepository(Slot::class)->findOneBy(array('owner'=>$this->getUser()));
+//            $reservedAlready = $manager->getRepository(Reservation::class)->findOneBy(array('slot' => $releaseDetails));
+//        }else{
+//            $releaseDetails=null;
+//            $reservedAlready=null;
+//        }
+
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $slot=$form->getData();
-            $slotTemp=$manager->getRepository(Slot::class)->findOneBy(array('owner'=>$this->getUser()));
+            $slot = $form->getData();
+            $slotTemp = $manager->getRepository(Slot::class)->findOneBy(array('owner' => $this->getUser()));
             $slotTemp->setReleaseStart($slot->getReleaseStart());
             $slotTemp->setReleaseEnd($slot->getReleaseEnd());
             $slotTemp->setReleaseStatus(true);
@@ -58,9 +69,22 @@ class SlotReleaseController extends Controller
 
         return $this->render('home/release.html.twig', array(
             'entities' => $userSlots,
+//            'releases' => $releaseDetails,
+//            'reserved' => $reservedAlready,
             'form' => $form->createView(),
-            ));
+        ));
     }
-    
+    /**
+     * @Route("/cancelRelease", name="cancelRelease")
+     */
+    public function cancelRelease(EntityManager $manager){
+        $slot=$manager->getRepository(Slot::class)->findOneBy(array('owner' => $this->getUser()));
+        $slot->setReleaseEnd(NULL);
+        $slot->setReleaseStart(NULL);
+        $slot->setReleaseStatus(false);
+        $manager->flush();
+        return $this->redirectToRoute("release");
+    }
+
 
 }

@@ -8,22 +8,28 @@
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <h2>Release your space</h2>
-                        <p>Choose slot(s):
-                            {% if entities!=null %}
-                            {% for item in entities %}
-                                {{ item.id }}
-                            {% endfor %}
-                        </p>
-                        <div class="row">
-                            <div class="col-lg-8 mx-auto">
-                                {{ form_start(form) }}
-                                {{ form_widget(form) }}
-                                {{ form_end(form) }}
+                        {% if entities.getIsReleased==false %}
+                            <p>Your slot number:
+                                {{ entities.id }}
+                            </p>
+                            <div class="row">
+                                <div class="col-lg-8 mx-auto">
+                                    {{ form_start(form) }}
+                                    {{ form_widget(form) }}
+                                    {{ form_end(form) }}
+                                </div>
                             </div>
-                        </div>
                         {% else %}
-                            <p>You don't have any slot to release!</p>
+                            <p>You already released your space: {{ entities.getId() }}</p>
+                            <p>from: {{ entities.getReleaseStart()|date("d/m/Y") }} <br/>
+                                to: {{ entities.getReleaseEnd()|date("d/m/Y") }}</p>
+                            {% if entities.getIsReserved()==false %}
+                            <p>Click to <a href="{{ path('cancelRelease') }}">cancel</a> release</p>
+                            {% else %}
+                                <p>Your space is booked!</p>
+                            {% endif %}
                         {% endif %}
+
                     </div>
                 </div>
             </div>

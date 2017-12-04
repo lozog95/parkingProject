@@ -40,22 +40,11 @@ class BookController extends Controller
             ->add('slot', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Slot',
                 'query_builder' => function(EntityRepository $er){
-                    return $er->createQueryBuilder('s')->where('s.isReleased = true');
+                    return $er->createQueryBuilder('s')->where('s.isReleased = true')->andWhere('s.isReserved = false');
                 },
                 'choice_label' => 'id',
                 'placeholder' => 'Choose a slot...'
             ))
-            //do i really need dates? not on this stage...
-//            ->add('start', DateType::class, array(
-//                'widget' => 'single_text',
-//                // this is actually the default format for single_text
-//                'format' => 'yyyy-MM-dd',
-//            ))
-//            ->add('end', DateType::class, array(
-//                'widget' => 'single_text',
-//                // this is actually the default format for single_text
-//                'format' => 'yyyy-MM-dd',
-//                'html5' => 'true',))
             ->add('submit', SubmitType::class, array('label' => 'Book'))
             ->getForm();
         $form->handleRequest($request);
@@ -63,18 +52,16 @@ class BookController extends Controller
             $reservation = $form->getData();
             $slotNumber=$form->get('slot')->getData();
             $slot=$em->getRepository(Slot::class)->find($slotNumber);
-            $slot->setReleaseStatus(false);
+            $slot->setIsReserved(true);
             $reservation->setStart($slot->getReleaseStart());
             $reservation->setEnd($slot->getReleaseEnd());
-//            $slot->setReleaseStart(NULL);
-//            $slot->setReleaseEnd(NULL);
             $reservation->setGuest($this->getUser());
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($reservation);
             $manager->flush();
             return $this->redirectToRoute('home');
         }
-        $slot = $em->getRepository(Slot::class)->findBy(array('isReleased' => '1'));
+        $slot = $em->getRepository(Slot::class)->findBy(array('isReleased' => '1', 'isReserved' => '0'));
         return $this->render('home/book.html.twig',array(
             'form' => $form->createView(),
             'entities' => $slot,

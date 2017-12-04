@@ -47,6 +47,42 @@ class Slot
     private $isReleased;
 
     /**
+     * @ORM\Column(name="is_reserved", type="boolean")
+     */
+    private $isReserved;
+
+    /**
+     * @return mixed
+     */
+    public function getIsReserved()
+    {
+        return $this->isReserved;
+    }
+
+    /**
+     * @param mixed $isReserved
+     */
+    public function setIsReserved($isReserved)
+    {
+        $this->isReserved = $isReserved;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisReleased()
+    {
+        return $this->isReleased;
+    }
+
+    /**
+     * @param mixed $isReleased
+     */
+    public function setIsReleased($isReleased)
+    {
+        $this->isReleased = $isReleased;
+    }
+    /**
      * @ORM\Column(type="date", name="release_start", nullable=true)
      * @Assert\Date()
      */
