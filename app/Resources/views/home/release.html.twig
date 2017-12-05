@@ -7,8 +7,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
+                        {% if entities!=null %}
                         <h2>Release your space</h2>
-                        {% if entities.getIsReleased==false %}
+                        {% if entities.getIsReleased()==false %}
                             <p>Your slot number:
                                 {{ entities.id }}
                             </p>
@@ -29,6 +30,9 @@
                                 <p>Your space is booked!</p>
                             {% endif %}
                         {% endif %}
+                            {% else %}
+                        <h2>You are not the owner of any space!</h2>
+                                {% endif %}
 
                     </div>
                 </div>

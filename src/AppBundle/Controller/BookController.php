@@ -39,7 +39,7 @@ class BookController extends Controller
         $form = $this->createFormBuilder($reservation)
             ->add('slot', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Slot',
-                'query_builder' => function(EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->where('s.isReleased = true')->andWhere('s.isReserved = false');
                 },
                 'choice_label' => 'id',
@@ -50,8 +50,8 @@ class BookController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $reservation = $form->getData();
-            $slotNumber=$form->get('slot')->getData();
-            $slot=$em->getRepository(Slot::class)->find($slotNumber);
+            $slotNumber = $form->get('slot')->getData();
+            $slot = $em->getRepository(Slot::class)->find($slotNumber);
             $slot->setIsReserved(true);
             $reservation->setStart($slot->getReleaseStart());
             $reservation->setEnd($slot->getReleaseEnd());
@@ -62,7 +62,7 @@ class BookController extends Controller
             return $this->redirectToRoute('home');
         }
         $slot = $em->getRepository(Slot::class)->findBy(array('isReleased' => '1', 'isReserved' => '0'));
-        return $this->render('home/book.html.twig',array(
+        return $this->render('home/book.html.twig', array(
             'form' => $form->createView(),
             'entities' => $slot,
         ));
